@@ -101,9 +101,17 @@ function Upload() {
 
   const getDetails = async () => {
     try {
-      const res = await axios.get("/get", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        "/get",
+        {
+          withCredentials: true,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          }
+        }
+      );
       if (res) {
         setDetails(res.data);
 
