@@ -8,7 +8,7 @@ import axios from "../axios/axios.js";
 function Upload() {
   const navigate = useNavigate();
   const fileRef = useRef();
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies, removeCookie] = useCookies(['jwt']);
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
   const [details, setDetails] = useState([]);
@@ -103,9 +103,6 @@ function Upload() {
       );
       if (res) {
         setDetails(res.data);
-        toast.info("Data received!", {
-          position: "bottom-right",
-        });
       }
     } catch (error) {
       toast.error(error, {

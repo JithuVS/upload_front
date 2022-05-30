@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie"
 import axios from '../axios/axios.js';
 
 function Register() {
-  const [cookies, setCookie] = useCookies(["cookie-name"]);
+  const [cookies, setCookie] = useCookies(["jwt"]);
   const navigate = useNavigate();
   useEffect(() => {
     if (cookies.jwt && cookies.jwt !== 'undefined') {
