@@ -8,7 +8,7 @@ function Register() {
   const [cookies, setCookie] = useCookies(["cookie-name"]);
   const navigate = useNavigate();
   useEffect(() => {
-    if (cookies.jwt) {
+    if (cookies.jwt && cookies.jwt !== 'undefined') {
       navigate("/");
     }
   }, [cookies, navigate]);
