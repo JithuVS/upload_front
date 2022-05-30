@@ -5,10 +5,10 @@ import { useCookies } from "react-cookie";
 import axios from '../axios/axios.js';
 
 function Login() {
-  const [cookies] = useCookies([]);
+  const [cookies, setCookie] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
-    if (localStorage.getItem('jwt')) {
+    if (cookies.jwt) {
       navigate("/");
     }
   }, [cookies, navigate]);
@@ -34,7 +34,7 @@ function Login() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          localStorage.setItem('jwt', data.token);
+          setCookie('jwt', data.token);
           navigate("/");
         }
       }

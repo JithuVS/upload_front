@@ -15,7 +15,7 @@ function Upload() {
 
   useEffect(() => {
     const verifyUser = async () => {
-      if (!localStorage.getItem('jwt')) {
+      if (!cookies.jwt) {
         navigate("/login");
       } else {
         const { data } = await axios.post(
@@ -43,7 +43,6 @@ function Upload() {
 
   const logOut = () => {
     removeCookie("jwt");
-    localStorage.removeItem('jwt');
     navigate("/login");
   };
 
