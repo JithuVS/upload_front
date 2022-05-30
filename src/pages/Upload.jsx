@@ -8,7 +8,7 @@ import axios from "../axios/axios.js";
 function Upload() {
   const navigate = useNavigate();
   const fileRef = useRef();
-  const [cookies, setCookie, removeCookie] = useCookies([]);
+  const [cookies, removeCookie] = useCookies([]);
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
   const [details, setDetails] = useState([]);
@@ -56,10 +56,7 @@ function Upload() {
       const formData = new FormData();
       formData.append("fileName", file);
       try {
-        const res = await axios.post("/upload", formData);
-        toast.info("image uploaded!", {
-          position: "bottom-right",
-        });
+        await axios.post("/upload", formData);
         fileRef.current.value = null;
       } catch (error) {
         toast.error(error, {
@@ -84,11 +81,8 @@ function Upload() {
     }
     formData.append("fileName", file);
     try {
-      const res = await axios.post("/upload", formData, {
+      await axios.post("/upload", formData, {
         withCredentials: true,
-      });
-      toast.info("image uploaded!", {
-        position: "bottom-right",
       });
       getDetails();
       fileRef.current.value = null;
@@ -201,6 +195,7 @@ function Upload() {
                 return (
                   <div className="item" key={item._id}>
                     <img
+                      alt='item'
                       src={item.url}
                       style={{ width: "100%", height: "60%" }}
                     ></img>
