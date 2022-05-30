@@ -8,7 +8,7 @@ function Login() {
   const [cookies] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
-    if (cookies.jwt) {
+    if (localStorage.getItem('jwt')) {
       navigate("/");
     }
   }, [cookies, navigate]);
@@ -34,6 +34,7 @@ function Login() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
+          localStorage.setItem('jwt', data.token);
           navigate("/");
         }
       }
