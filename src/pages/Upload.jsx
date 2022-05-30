@@ -73,7 +73,7 @@ function Upload() {
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    for (let i = 0; i < 8; i++) {
+    for (let i = 0; i < 7; i++) {
       formData.append(
         event.currentTarget[i].name,
         event.currentTarget[i].value
