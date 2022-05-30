@@ -102,7 +102,7 @@ function Upload() {
   const getDetails = async () => {
     try {
       const res = await axios.post(
-        "/get",
+        "/getDetails",
         {},
         {
           withCredentials: true,
