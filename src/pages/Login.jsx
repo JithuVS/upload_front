@@ -8,7 +8,7 @@ function Login() {
   const [cookies, setCookie] = useCookies([]);
   const navigate = useNavigate();
   useEffect(() => {
-    if (cookies.jwt && cookies.jwt !== undefined) {
+    if (cookies.jwt && cookies.jwt !== 'undefined') {
       navigate("/");
     }
   }, [cookies, navigate]);
