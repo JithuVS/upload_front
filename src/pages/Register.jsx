@@ -25,8 +25,7 @@ function Register() {
         "/register",
         {
           ...values,
-        },
-        { withCredentials: true }
+        }
       );
       if (data) {
         if (data.errors) {
