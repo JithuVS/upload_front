@@ -26,6 +26,7 @@ function Upload() {
           removeCookie("jwt");
           navigate("/login");
         } else
+          getDetails();
           toast(`Hi ${data.user}`, {
             theme: "dark",
           });
@@ -36,7 +37,7 @@ function Upload() {
 
   const logOut = () => {
     removeCookie("jwt");
-    localStorage.removeItem('jwt')
+    localStorage.getItem('jwt')
     navigate("/login");
   };
 
