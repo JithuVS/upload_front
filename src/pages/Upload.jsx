@@ -5,31 +5,58 @@ import logo from "../upload.ico";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "../axios/axios.js";
 
+const isVideo = (filename) => {
+  var ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case "m4v":
+    case "avi":
+    case "mpg":
+    case "mp4":
+    case "3gp":
+    case "flv":
+      return true;
+  }
+  return false;
+};
+
+const isRaw = (filename) => {
+  var ext = getExtension(filename);
+  switch (ext.toLowerCase()) {
+    case "txt":
+    case "doc":
+    case "docx":
+    case "xls":
+      return true;
+  }
+  return false;
+};
+
+const getExtension = (filename) => {
+  var parts = filename.split(".");
+  return parts[parts.length - 1];
+};
+
 function Upload() {
   const navigate = useNavigate();
   const fileRef = useRef();
-  const [cookies, removeCookie] = useCookies(['jwt']);
+  const [cookies, removeCookie] = useCookies(["jwt"]);
   const [file, setFile] = useState();
   const [fileName, setFileName] = useState("");
   const [details, setDetails] = useState([]);
 
   useEffect(() => {
     const verifyUser = async () => {
-      if (!localStorage.getItem('jwt')) {
+      if (!localStorage.getItem("jwt")) {
         navigate("/login");
       } else {
-        const { data } = await axios.post(
-          "/",
-          {}
-        );
+        const { data } = await axios.post("/", {});
         if (!data.status) {
           removeCookie("jwt");
           navigate("/login");
-        } else
-          getDetails();
-          toast(`Hi ${data.user}`, {
-            theme: "dark",
-          });
+        } else getDetails();
+        toast(`Hi ${data.user}`, {
+          theme: "dark",
+        });
       }
     };
     verifyUser();
@@ -37,7 +64,7 @@ function Upload() {
 
   const logOut = () => {
     removeCookie("jwt");
-    localStorage.removeItem('jwt')
+    localStorage.removeItem("jwt");
     navigate("/login");
   };
 
@@ -50,7 +77,7 @@ function Upload() {
     event.preventDefault();
     const formData = new FormData();
     for (let i = 0; i < 7; i++) {
-      if(event.currentTarget[i].name != 'fileName'){
+      if (event.currentTarget[i].name != "fileName") {
         formData.append(
           event.currentTarget[i].name,
           event.currentTarget[i].value
@@ -73,9 +100,7 @@ function Upload() {
 
   const getDetails = async () => {
     try {
-      const res = await axios.get(
-        "/getDetails"
-      );
+      const res = await axios.get("/getDetails");
       if (res) {
         setDetails(res.data);
       }
@@ -163,11 +188,19 @@ function Upload() {
               details.map((item) => {
                 return (
                   <div className="item" key={item._id}>
-                    <img
-                      alt='item'
-                      src={item.url}
-                      style={{ width: "100%", height: "60%" }}
-                    ></img>
+                    {isVideo(item.url) ? (
+                      <video width="100%" controls>
+                        <source src={item.url} type="video/mp4"></source>
+                      </video>
+                    ) : isRaw(item.url) ? (
+                      <div className="txt">{item.url}</div>
+                    ) : (
+                      <img
+                        alt="item"
+                        src={item.url}
+                        style={{ width: "100%", height: "60%" }}
+                      ></img>
+                    )}
                     <br></br>
                     <hr></hr>
                     <div
