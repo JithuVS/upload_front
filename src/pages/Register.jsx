@@ -33,7 +33,7 @@ function Register() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          setCookie('jwt', data.token);
+          localStorage.setItem('jwt', data.token);
           navigate("/");
         }
       }

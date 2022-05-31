@@ -5,8 +5,9 @@ import { useCookies } from "react-cookie";
 import axios from '../axios/axios.js';
 
 function Login() {
-  const [cookies, setCookie] = useCookies(['jwt']);
+  const [cookies] = useCookies(['jwt']);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (cookies.jwt && cookies.jwt !== 'undefined') {
       navigate("/");
@@ -18,15 +19,15 @@ function Login() {
     toast.error(error, {
       position: "bottom-right",
     });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await axios.post(
+      const {data} = await axios.post(
         "/login",
         {
           ...values,
-        },
-        {withCredentials: false},
+        }
       );
       if (data) {
         if (data.errors) {
@@ -34,7 +35,7 @@ function Login() {
           if (email) generateError(email);
           else if (password) generateError(password);
         } else {
-          setCookie('jwt', data.token);
+          localStorage.setItem('jwt', data.token);
           navigate("/");
         }
       }

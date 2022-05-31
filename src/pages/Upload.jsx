@@ -15,15 +15,12 @@ function Upload() {
 
   useEffect(() => {
     const verifyUser = async () => {
-      if (!cookies.jwt) {
+      if (!localStorage.getItem('jwt')) {
         navigate("/login");
       } else {
         const { data } = await axios.post(
           "/",
-          {},
-          {
-            withCredentials: true,
-          }
+          {}
         );
         if (!data.status) {
           removeCookie("jwt");
@@ -37,10 +34,6 @@ function Upload() {
     verifyUser();
   }, [cookies, navigate, removeCookie]);
 
-  useEffect(() => {
-    getDetails();
-  }, []);
-
   const logOut = () => {
     removeCookie("jwt");
     navigate("/login");
@@ -51,33 +44,16 @@ function Upload() {
     setFileName(e.target.files[0].name);
   };
 
-  const upLoad = async (e) => {
-    if (file) {
-      const formData = new FormData();
-      formData.append("fileName", file);
-      try {
-        await axios.post("/upload", formData);
-        fileRef.current.value = null;
-      } catch (error) {
-        toast.error(error, {
-          position: "bottom-right",
-        });
-      }
-    } else {
-      toast.error("Please select an image to upload", {
-        position: "bottom-right",
-      });
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData();
     for (let i = 0; i < 7; i++) {
-      formData.append(
-        event.currentTarget[i].name,
-        event.currentTarget[i].value
-      );
+      if(event.currentTarget[i].name != 'fileName'){
+        formData.append(
+          event.currentTarget[i].name,
+          event.currentTarget[i].value
+        );
+      }
     }
     formData.append("fileName", file);
     try {
@@ -96,10 +72,7 @@ function Upload() {
   const getDetails = async () => {
     try {
       const res = await axios.get(
-        "/getDetails",
-        {
-          withCredentials: true,
-        }
+        "/getDetails"
       );
       if (res) {
         setDetails(res.data);
@@ -174,7 +147,6 @@ function Upload() {
             }}
             src={logo}
             alt="Logo"
-            onClick={upLoad}
           />
         </form>
         <div
