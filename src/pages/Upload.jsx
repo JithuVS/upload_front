@@ -36,6 +36,7 @@ function Upload() {
 
   const logOut = () => {
     removeCookie("jwt");
+    localStorage.removeItem('jwt')
     navigate("/login");
   };
 
